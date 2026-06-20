@@ -27,7 +27,7 @@
       <div class="site-header__inner">
         <a class="site-brand" href="{{ home_url }}">
           {%- if site.avatar -%}
-            <img class="site-brand__avatar" src="{{ site.avatar | prepend: site.baseurl_root }}" alt="{{ site.title }}">
+            <img class="site-brand__avatar" src="{{ site.avatar | relative_url }}" alt="{{ site.title }}">
           {%- else -%}
             <span class="site-brand__avatar site-brand__avatar--initial">{{ site.title | slice: 0, 1 | upcase }}</span>
           {%- endif -%}
@@ -37,7 +37,7 @@
         <nav class="site-nav">
           <a href="{{ home_url }}">{% t global.home %}</a>
           <a href="{{ "/tags.html" | prepend: lang_prefix }}">{% t global.tags %}</a>
-          <a href="{{ "blog.html" | prepend: site.baseurl_root }}">{% t global.blog %}</a>
+          <a href="{{ "/blog.html" | prepend: lang_prefix }}">{% t global.blog %}</a>
 
           <span class="lang-switch">
             {%- for lang in site.languages -%}
@@ -86,7 +86,7 @@
         <span>&copy; {{ site.time | date: "%Y" }} {{ site.title }}</span>
         <span class="spacer"></span>
         <a class="footer__link" href="{{ home_url }}">{% t global.home %}</a>
-        <a class="footer__link" href="{{ "blog.html" | prepend: site.baseurl_root }}">{% t global.blog %}</a>
+        <a class="footer__link" href="{{ "/blog.html" | prepend: lang_prefix }}">{% t global.blog %}</a>
         <a href="https://mynickname.com/sergzhum"><img src="https://mynickname.com/img.php?nick=sergzhum&sert=2&text=t8" alt="Nickname sergzhum is registered!" border="0" /></a>
       </div>
     </footer>
