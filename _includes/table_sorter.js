@@ -1,0 +1,17 @@
+<!-- tablesorter scripts -->    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!--link rel="stylesheet" href="https://mottie.github.io/tablesorter/css/theme.default.css"-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" 
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" 
+        crossorigin="anonymous"></script>
+  
+<script type="text/javascript" src="https://mottie.github.io/tablesorter/dist/js/jquery.tablesorter.min.js"> </script>
+<script type="text/javascript" >
+        $(function() {
+                console.log("sorting table");
+                $("table").tablesorter();
+        });
+</script>
+<!-- tablesorter-->
+

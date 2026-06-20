@@ -1,0 +1,23 @@
+{%- comment -%}
+  Tags page body: one section per tag listing the pages that carry it.
+  (The clickable tag cloud itself lives in the sidebar, see _includes/tag_cloud.html.)
+  Links are language-aware via site.lang.
+{%- endcomment -%}
+
+{%- assign lang_prefix = "" -%}
+{%- unless site.lang == "en" -%}{%- assign lang_prefix = "/" | append: site.lang -%}{%- endunless -%}
+
+{%- assign tagged = site.html_pages | where_exp: "p", "p.tags" -%}
+{%- assign all_tags = "" | split: "|" -%}
+{%- for p in tagged -%}{%- assign all_tags = all_tags | concat: p.tags -%}{%- endfor -%}
+{%- assign all_tags = all_tags | uniq | sort_natural -%}
+
+{% for t in all_tags %}
+  {%- assign pages_with = tagged | where_exp: "p", "p.tags contains t" -%}
+  <h2 id="tag-{{ t | slugify }}" class="tag-section">#{{ t }}</h2>
+  <ul class="tag-list">
+    {%- for p in pages_with -%}
+      <li><a href="{{ p.url | prepend: lang_prefix }}">{% t p.title %}</a></li>
+    {%- endfor -%}
+  </ul>
+{% endfor %}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", (user) => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+
+  <body>
+
+    {%- assign home_url = "/" -%}
+    {%- assign lang_prefix = "" -%}
+    {%- unless site.lang == "en" -%}
+      {%- assign home_url = "/" | append: site.lang | append: "/" -%}
+      {%- assign lang_prefix = "/" | append: site.lang -%}
+    {%- endunless -%}
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-brand" href="{{ home_url }}">
+          {%- if site.avatar -%}
+            <img class="site-brand__avatar" src="{{ site.avatar | prepend: site.baseurl_root }}" alt="{{ site.title }}">
+          {%- else -%}
+            <span class="site-brand__avatar site-brand__avatar--initial">{{ site.title | slice: 0, 1 | upcase }}</span>
+          {%- endif -%}
+          <span>{{ site.title }}</span>
+        </a>
+
+        <nav class="site-nav">
+          <a href="{{ home_url }}">{% t global.home %}</a>
+          <a href="{{ "/tags.html" | prepend: lang_prefix }}">{% t global.tags %}</a>
+          <a href="{{ "blog.html" | prepend: site.baseurl_root }}">{% t global.blog %}</a>
+
+          <span class="lang-switch">
+            {%- for lang in site.languages -%}
+              {%- assign lang_url = page.url -%}
+              {%- unless forloop.first -%}{%- assign lang_url = "/" | append: lang | append: page.url -%}{%- endunless -%}
+              {%- if lang == site.lang -%}
+                <a class="is-active" href="{{ lang_url }}">{{ lang }}</a>
+              {%- else -%}
+                <a href="{{ lang_url }}">{{ lang }}</a>
+              {%- endif -%}
+            {%- endfor -%}
+          </span>
+
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper page-grid">
+        <article class="page-main">
+          {{ content }}
+
+          {%- if page.tags and page.tags.size > 0 -%}
+          <div class="post-tags">
+            {%- for t in page.tags -%}
+              <a class="tag-chip" href="{{ "/tags.html" | prepend: lang_prefix }}#tag-{{ t | slugify }}">#{{ t }}</a>
+            {%- endfor -%}
+          </div>
+          {%- endif -%}
+        </article>
+
+        <aside class="sidebar">
+          <div class="sidebar__widget">
+            <h2 class="sidebar__title">{% t global.tags %}</h2>
+            {% include tag_cloud.html %}
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <span>&copy; {{ site.time | date: "%Y" }} {{ site.title }}</span>
+        <span class="spacer"></span>
+        <a class="footer__link" href="{{ home_url }}">{% t global.home %}</a>
+        <a class="footer__link" href="{{ "blog.html" | prepend: site.baseurl_root }}">{% t global.blog %}</a>
+        <a href="https://mynickname.com/sergzhum"><img src="https://mynickname.com/img.php?nick=sergzhum&sert=2&text=t8" alt="Nickname sergzhum is registered!" border="0" /></a>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+        function render() {
+          var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+          btn.innerHTML = dark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+        render();
+        btn.addEventListener('click', function () {
+          var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+          var next = dark ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          try { localStorage.setItem('theme', next); } catch (e) {}
+          render();
+        });
+      })();
+    </script>
+
+  </body>
+
+</html>

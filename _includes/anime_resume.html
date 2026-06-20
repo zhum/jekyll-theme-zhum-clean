@@ -1,0 +1,23 @@
+{%- comment -%}
+  Renders the anime_resume collection as a table.
+  Picks the language-specific fields (title_<lang>/desc_<lang>) based on the
+  current rendering language (site.lang), so the same source files produce the
+  correct EN/RU output. See _anime_resume/*.md for the source format.
+{%- endcomment -%}
+{%- assign title_key = 'title_' | append: site.lang -%}
+{%- assign desc_key = 'desc_' | append: site.lang -%}
+<table>
+  <thead>
+  <tr><th>{% t anime.col_title %}</th><th>{% t anime.col_action %}</th><th>{% t anime.col_humor %}</th><th>{% t anime.col_culture %}</th></tr>
+</thead>
+<tbody>
+{% for art in site.anime_resume %}
+<tr><td>
+  <div class="title">{{ art[title_key] }}</div>{{ art[desc_key] | markdownify }}
+</td><td><i class="fas fa-running ll{{art.action}}">{{art.action}}</i>
+</td><td><i class="fas fa-laugh-squint ll{{art.humor}}">{{art.humor}}</i>
+</td><td><i class="fas fa-torii-gate ll{{art.culture}}">{{art.culture}}</i>
+</td></tr>
+{% endfor %}
+</tbody>
+</table>
